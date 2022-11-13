@@ -15,6 +15,7 @@ and `yarn start` to start the code.  this will run on port `3000`
 
 ### Folder Structure
 
-There are two routes you can view, `/original` and `/fixed` - the two sites will be identical.
+There are two options you can view, original and fixed - these will be identified by Buttons on the home page 
+`localhost:3000`
 
-In the code, you will see `src/original` and `src/fixed` which match up to the versions we have for the routes.
+In the code, you will see `src/original` and `src/fixed` which match up to the versions we have for the code.

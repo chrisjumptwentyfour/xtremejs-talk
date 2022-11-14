@@ -1,0 +1,20 @@
+import './calc.css';
+import React, {useState} from "react";
+import {Textfit} from 'react-textfit';
+const BV=[["C", "+-", "%", "/"],[7, 8, 9, "X"],[4, 5, 6, "-"],[1, 2, 3, "+"],[0, ".", "="]];
+const W=({children})=>{return <div className="w">{children}</div>};
+const S=({v}) => {return (<Textfit className="s" mode="single" max={70}>{v}</Textfit>)};
+const BB=({children})=>{return <div className="bb">{children}</div>};
+const B=({cn,v,oc})=>{return (<button className={cn} onClick={oc}>{v}</button>)};
+const CO=()=>{
+    let [c,sc]=useState({s:"",n:0,r:0});
+    const nch=(e)=>{e.preventDefault();const v=e.target.innerHTML;if (c.n.toString().length<16) {sc({...c,n:c.n===0&&v==="0"?"0":c.n%1===0?Number(c.n+v):c.n+v,r:!c.s?0:c.r})}};
+    const cch=(e)=>{e.preventDefault();const v=e.target.innerHTML;sc({...c,n:!c.n.toString().includes(".")?c.n+v:c.n})};
+    const sch=(e)=>{e.preventDefault();const v=e.target.innerHTML;sc({...c,s:v,r:!c.r&&c.n?c.n:c.r,n:0})};
+    const ech=()=>{if(c.s&&c.n){const m=(a,b,s)=>s==="+"?a+b:s==="-"?a-b:s==="X"?a*b:a/b;sc({...c,r:c.n.toString()==="0"&&c.s==="/"?"Can't divide with 0":m(Number(c.r),Number(c.n),c.s),s:"",n:0})}};
+    const ich=()=>{sc({...c,n:c.n?c.n*-1:0,r:c.r?c.r*-1:0,s:""})};
+    const pch=()=>{let nm=c.n?parseFloat(c.n.toString()):0;let rs=c.r?parseFloat(c.r.toString()):0;sc({...c,n:(nm/=Math.pow(100, 1)),r: (rs/=Math.pow(100, 1)),s:""})};
+    const rch=()=>{sc({...c,s:"",n:0,r:0})};
+    return (<W><S v={c.n?c.n:c.r}/><BB>{BV.flat().map((b,i)=>{return (<B key={i} cn={b==="="?"equals":""} v={b} oc={b==="C"?rch:b==="+-"?ich:b==="%"?pch:b==="="?ech:b==="/"||b==="X"||b==="-"||b==="+"?sch:b==="."?cch:nch}/>)})}</BB></W>);
+};
+export default CO;
